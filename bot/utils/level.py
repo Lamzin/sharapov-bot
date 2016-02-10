@@ -65,7 +65,9 @@ class Level(object):
         self.dependencies = DEPENDENCIES[str(self.number)]
 
         if not self.level_complete:
+            time_begin = time.time()
             self.dfs()
+            print 'dfs: ', time.time() - time_begin
             self.go_to_success()
 
     # def find_dependencies(self, index):
@@ -81,13 +83,15 @@ class Level(object):
 
     def go_to_success(self):
         print self.number, self.way_to_success
-        for i in self.way_to_success:
-            html = self.request_manager.get(Level.index_to_code(i))
-            self.parser.parse(html)
-            self.current_position = self.parser.flowers
-            if self.parser.level == self.number + 1:
-                self.level_complete = True
-                break
+        for i, item in enumerate(self.way_to_success):
+            if i < len(self.way_to_success) - 1:
+                self.request_manager.get(Level.index_to_code(item))
+            else:
+                html = self.request_manager.get(Level.index_to_code(item))
+                self.parser.parse(html)
+                self.current_position = self.parser.flowers
+                if self.parser.level == self.number + 1:
+                    self.level_complete = True
 
     def dfs(self):
         # HACK WITH C++
@@ -96,6 +100,10 @@ class Level(object):
             for index, value in enumerate(self.dependencies):
                 infile.write('{} {}\n'.format(index, value))
 
+        try:
+            os.remove('output.txt')
+        except Exception:
+            pass
         os.startfile('utils\CPP\dfs.exe')
 
         while not os.path.isfile('output.txt'):
