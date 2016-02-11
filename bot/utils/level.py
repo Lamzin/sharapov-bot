@@ -88,19 +88,35 @@ class Level(object):
             self.dfs()
         else:
             self.special_solution()
+        time_begin = time.time()
         self.go_to_success()
+        print 'queries time: ', time.time() - time_begin
 
     def go_to_success(self):
         print self.number, self.way_to_success
-        for i, item in enumerate(self.way_to_success):
-            if i < len(self.way_to_success) - 1:
-                self.request_manager.get(Level.index_to_code(item))
-            else:
-                html = self.request_manager.get(Level.index_to_code(item))
-                self.parser.parse(html)
-                self.current_position = self.parser.flowers
-                if self.parser.level == self.number + 1:
-                    self.level_complete = True
+        # for i, item in enumerate(self.way_to_success):
+        #     if i < len(self.way_to_success) - 1:
+        #         self.request_manager.get(Level.index_to_code(item))
+        #     else:
+        #         html = self.request_manager.get(Level.index_to_code(item))
+        #         self.parser.parse(html)
+        #         self.current_position = self.parser.flowers
+        #         if self.parser.level == self.number + 1:
+        #             self.level_complete = True
+        #         print 'html level: ', self.parser.level
+        patch = [
+            Level.index_to_code(item)
+            for item in self.way_to_success[:-1]
+        ]
+        self.request_manager.get_patch(patch)
+
+        last = Level.index_to_code(self.way_to_success[-1])
+        html = self.request_manager.get(last)
+        self.parser.parse(html)
+        self.current_position = self.parser.flowers
+        if self.parser.level == self.number + 1:
+            self.level_complete = True
+            print 'html level: ', self.parser.level
 
     def dfs(self):
         # HACK WITH C++

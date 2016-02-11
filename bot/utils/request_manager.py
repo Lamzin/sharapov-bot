@@ -1,4 +1,9 @@
 import requests
+import gevent
+from gevent.pool import Pool
+from gevent.queue import Queue
+
+from threading import Thread
 
 
 class RequestManager(object):
@@ -7,6 +12,8 @@ class RequestManager(object):
 
     def __init__(self):
         self.session = requests.session()
+        from gevent import monkey
+        monkey.patch_all()
 
     def get(self, code=None, timeout=10):
         url = RequestManager.SOURCE
@@ -14,6 +21,7 @@ class RequestManager(object):
             url += u'?code={}'.format(code)
         try:
             request = self.session.get(url, timeout=timeout)
+
             html = request.text
             return html
         except Exception as e:
@@ -25,4 +33,28 @@ class RequestManager(object):
             'name': "Lamzin bot"
         }
         request = self.session.post(url, data=data)
+
         return request.text
+
+    def get_patch(self, patch):
+        # workers = len(patch)
+        # workers = 4
+        # pool = Pool(workers)
+        # queue = Queue(48)
+        #
+        # for item in patch:
+        #     queue.put(item)
+        # queue.put(StopIteration)
+        #
+        # for item in queue:
+        #     pool.spawn(self.get, item)
+        # pool.join()
+
+        ths = []
+        for code in patch:
+            th = Thread(target=self.get, args=(code,))
+            th.start()
+            ths.append(th)
+
+        for th in ths:
+            th.join()
