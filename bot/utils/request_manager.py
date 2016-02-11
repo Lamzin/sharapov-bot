@@ -8,16 +8,16 @@ class RequestManager(object):
     def __init__(self):
         self.session = requests.session()
 
-    def get(self, code=None):
+    def get(self, code=None, timeout=10):
         url = RequestManager.SOURCE
         if code:
             url += u'?code={}'.format(code)
         try:
-            request = self.session.get(url, timeout=10)
+            request = self.session.get(url, timeout=timeout)
             html = request.text
             return html
         except Exception as e:
-            print e
+            pass
 
     def post_name(self):
         url = u'http://teorver.pp.ua/ukr/games/klumba/finish.php'

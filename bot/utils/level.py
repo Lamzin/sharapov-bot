@@ -1,7 +1,8 @@
 import time
-import subprocess
 import os
 
+
+FINISH_POSITION = 16777215
 
 DEPENDENCIES = {
     '1': [8388608, 4194304, 2097152, 1048576, 524288, 262144,
@@ -34,10 +35,29 @@ DEPENDENCIES = {
           3120, 3640, 1820, 910, 455, 195]
 }
 
+DEPENDENCIES_SPECIAL = [
+    [
+        0,   1,  2,  3,  4,  5,
+        6,   7,  8,  9, 10, 11,
+        12, 13, 14, 15, 16, 17,
+        18, 19, 20, 21, 22, 23,
+    ],
+    [
+        5,  0,   1,  2,  3,  4,
+        11, 6,   7,  8,  9, 10,
+        17, 12, 13, 14, 15, 16,
+        23, 18, 19, 20, 21, 22,
+    ],
+    [
+        18, 19, 20, 21, 22, 23,
+        0,   1,  2,  3,  4,  5,
+        6,   7,  8,  9, 10, 11,
+        12, 13, 14, 15, 16, 17,
+    ]
+]
+
 
 class Level(object):
-
-    FINISH_POSITION = 16777215
 
     def __init__(self, request_manager, parser, number, start_position=None):
         self.request_manager = request_manager
@@ -64,22 +84,11 @@ class Level(object):
         #         self.find_dependencies(i)
         self.dependencies = DEPENDENCIES[str(self.number)]
 
-        if not self.level_complete:
-            time_begin = time.time()
+        if self.number > 3:
             self.dfs()
-            print 'dfs: ', time.time() - time_begin
-            self.go_to_success()
-
-    # def find_dependencies(self, index):
-    #     html = self.request_manager.get(Level.index_to_code(index))
-    #     self.parser.parse(html)
-    #     self.current_position = self.parser.flowers
-    #     if self.parser.level == self.number + 1:
-    #         self.level_complete = True
-    #         return
-    #
-    #     self.dependencies[index] = int(self.previous_position) ^ int(self.current_position)
-    #     self.previous_position = self.current_position
+        else:
+            self.special_solution()
+        self.go_to_success()
 
     def go_to_success(self):
         print self.number, self.way_to_success
@@ -107,9 +116,26 @@ class Level(object):
         os.startfile('utils\CPP\dfs.exe')
 
         while not os.path.isfile('output.txt'):
-            time.sleep(0.001)
+            time.sleep(0.01)
 
         with open('output.txt', 'r') as outfile:
             self.way_to_success = map(int, outfile.read().split())
         os.remove('output.txt')
         # HACK WITH C++
+
+    def special_solution(self):
+        self.way_to_success = []
+        for i in range(24):
+            if self.previous_position & (2 ** (23 - i)) == 0:
+                self.way_to_success.append(DEPENDENCIES_SPECIAL[self.number - 1][i])
+
+    # def find_dependencies(self, index):
+    #     html = self.request_manager.get(Level.index_to_code(index))
+    #     self.parser.parse(html)
+    #     self.current_position = self.parser.flowers
+    #     if self.parser.level == self.number + 1:
+    #         self.level_complete = True
+    #         return
+    #
+    #     self.dependencies[index] = int(self.previous_position) ^ int(self.current_position)
+    #     self.previous_position = self.current_position
