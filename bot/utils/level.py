@@ -85,7 +85,9 @@ class Level(object):
         self.dependencies = DEPENDENCIES[str(self.number)]
 
         if self.number > 3:
+            time_begin = time.time()
             self.dfs()
+            print 'dfs time: ', time.time() - time_begin
         else:
             self.special_solution()
         time_begin = time.time()

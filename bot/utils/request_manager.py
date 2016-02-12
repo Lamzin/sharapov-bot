@@ -38,9 +38,9 @@ class RequestManager(object):
 
     def get_patch(self, patch):
         # workers = len(patch)
-        # workers = 4
+        # workers = 3
         # pool = Pool(workers)
-        # queue = Queue(48)
+        # queue = Queue(24)
         #
         # for item in patch:
         #     queue.put(item)

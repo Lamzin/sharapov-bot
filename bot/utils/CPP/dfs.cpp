@@ -1,6 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 
 using namespace std;
@@ -14,7 +15,6 @@ using namespace std;
 
 
 fstream in("input.txt", ios::in);
-fstream out("output.txt", ios::out);
 
 
 vector<int> way_to_finish;
@@ -39,7 +39,7 @@ int main() {
 	queue_size++;
 
 	for (int i = 0; i < queue_size; i++) {
-		for (int j = 0; j < 24 && i < queue_size; j++) {
+		for (int j = queue[i][EDGE] + 1; j < min(24, queue[i][EDGE] + 7) && i < queue_size; j++) {
 			current_position = queue[i][POSITION] ^ edge[j];
 			if (!used[current_position]) {
 				used[current_position] = 1;
@@ -61,12 +61,14 @@ int main() {
 		}
 		i = queue[i][PARENT];
 	}
+	if (way_to_finish.size() > 15) way_to_finish.clear();
 
+	fstream out("output.txt", ios::out);
 	for (int i = way_to_finish.size() - 1; i >= 0; i--) {
 		out << way_to_finish[i] << " ";
 	}
-
 	out << endl;
+	out.close();
 
 	return 0;
 }
