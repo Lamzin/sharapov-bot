@@ -87,7 +87,8 @@ class Level(object):
         if self.number > 3:
             time_begin = time.time()
             self.dfs()
-            print 'dfs time: ', time.time() - time_begin
+            # print 'dfs time: ', time.time() - time_begin
+            print 'linear solving time: ', time.time() - time_begin
         else:
             self.special_solution()
         time_begin = time.time()
@@ -108,17 +109,15 @@ class Level(object):
         #         print 'html level: ', self.parser.level
         patch = [
             Level.index_to_code(item)
-            for item in self.way_to_success[:-1]
+            for item in self.way_to_success
         ]
-        self.request_manager.get_patch(patch)
+        self.current_position = self.request_manager.get_patch(
+                patch, self.number + 1 if self.number < 7 else 7)
+        self.level_complete = True
 
-        last = Level.index_to_code(self.way_to_success[-1])
-        html = self.request_manager.get(last)
-        self.parser.parse(html)
-        self.current_position = self.parser.flowers
-        if self.parser.level == self.number + 1:
-            self.level_complete = True
-            print 'html level: ', self.parser.level
+        # if self.parser.level == self.number + 1:
+        #     self.level_complete = True
+        #     print 'html level: ', self.parser.level
 
     def dfs(self):
         # HACK WITH C++
@@ -131,10 +130,15 @@ class Level(object):
             os.remove('output.txt')
         except Exception:
             pass
-        os.startfile('utils\CPP\dfs.exe')
+        # os.startfile('utils\CPP\dfs.exe')
+        os.startfile('utils\CPP\linear.exe')
+        time.sleep(0.05)
 
+        time_begin = time.time()
         while not os.path.isfile('output.txt'):
-            time.sleep(0.01)
+            if time.time() - time_begin > 0.2:
+                break
+            time.sleep(0.02)
 
         with open('output.txt', 'r') as outfile:
             self.way_to_success = map(int, outfile.read().split())

@@ -17,6 +17,8 @@ class Parser(object):
     def parse(self, html):
         self.flowers = 0
         flower_images = re.findall(Parser.FLOWER_IMG, html)
+
+        # WARNING!!! 23 bit - 0 flower, ..., 0 bit - 23 flower
         for flower_image in flower_images:
             self.flowers *= 2
             if Parser.FLOWER_EXIST in flower_image:

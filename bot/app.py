@@ -19,19 +19,19 @@ class App(object):
 
                 position = level.current_position
                 print level_number, level.level_complete
-                if (not level.level_complete and level_number < 7) or time.time() - time_begin > 3:
-                    return False
+                if (not level.level_complete and level_number < 7) or time.time() - time_begin > 1:
+                    return True
 
-            if time.time() - time_begin < 3:
+            if time.time() - time_begin < 1:
                 html = self.request_manager.post_name()
                 print 'POST with time = {}!'.format(time.time() - time_begin)
-                return True
+                return False
             print 'finish with time = {}!'.format(time.time() - time_begin)
         except Exception as e:
             print repr(e)
 
 
 if __name__ == "__main__":
+    # App().run()
     while True:
-        if App().run():
-            break
+        App().run()

@@ -1,0 +1,32 @@
+1 [0, 2, 6, 8, 10, 11, 12, 16, 17, 18, 20, 21, 23]
+html level:  2
+queries time:  0.264999866486
+1 True
+2 [0, 1, 4, 11, 10, 17, 13, 14, 21, 22]
+html level:  3
+queries time:  0.169000148773
+2 True
+3 [21, 22, 0, 1, 2, 7, 10, 11, 14, 15, 16, 17]
+html level:  4
+queries time:  0.240000009537
+3 True
+dfs time:  0.0839998722076
+4 [0, 1, 5, 10, 11, 12, 17, 18]
+html level:  5
+queries time:  0.15499997139
+4 True
+dfs time:  0.126000165939
+5 [0, 5, 7, 8, 12, 14, 16, 17, 18, 20]
+html level:  6
+queries time:  0.162999868393
+5 True
+dfs time:  0.0950000286102
+6 [0, 1, 2, 5, 10, 11, 14, 18, 19, 23]
+html level:  7
+queries time:  0.156000137329
+6 True
+dfs time:  0.0649998188019
+7 [3, 5, 11, 12, 15, 20, 22, 23]
+queries time:  0.15499997139
+7 False
+POST with time = 1.90199995041!
