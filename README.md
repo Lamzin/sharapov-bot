@@ -2,6 +2,12 @@
 bot for this game:
 http://teorver.pp.ua/ukr/games/klumba/
 
+#bot's name: 
+'Lamzin bot'
+
+#current solution:
+use linear system
+
 
 #results (1.07s):
 http://teorver.pp.ua/ukr/games/klumba/finish.php
@@ -59,9 +65,3 @@ queries time:  0.101999998093
 POSTING... #time = 1.0039999485!
 
 POST with time = 1.07899999619!
-
-#bot's name: 
-'Lamzin bot'
-
-#current solution:
-use linear system
