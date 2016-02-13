@@ -1,9 +1,9 @@
 # sharapov-bot
-teorver.pp.ua/ukr/games/klumba/
+http://teorver.pp.ua/ukr/games/klumba/
 
 
 #results:
-teorver.pp.ua/ukr/games/klumba/finish.php
+http://teorver.pp.ua/ukr/games/klumba/finish.php
 
 
 #bot's name: 'Lamzin bot'
