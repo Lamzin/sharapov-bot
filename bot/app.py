@@ -3,6 +3,9 @@ import time
 from utils import Parser, RequestManager, Level
 
 
+EXPECTED_RECORD_TIME = 1.1
+
+
 class App(object):
 
     def __init__(self):
@@ -19,13 +22,14 @@ class App(object):
 
                 position = level.current_position
                 print level_number, level.level_complete
-                if (not level.level_complete and level_number < 7) or time.time() - time_begin > 1:
-                    return True
+                if (not level.level_complete and level_number < 7) \
+                        or time.time() - time_begin > EXPECTED_RECORD_TIME:
+                    return False
 
-            if time.time() - time_begin < 1:
+            if time.time() - time_begin < EXPECTED_RECORD_TIME:
                 html = self.request_manager.post_name()
                 print 'POST with time = {}!'.format(time.time() - time_begin)
-                return False
+                return True
             print 'finish with time = {}!'.format(time.time() - time_begin)
         except Exception as e:
             print repr(e)
@@ -34,4 +38,5 @@ class App(object):
 if __name__ == "__main__":
     # App().run()
     while True:
-        App().run()
+        if App().run():
+            break

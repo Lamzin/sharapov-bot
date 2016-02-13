@@ -1,5 +1,6 @@
 import time
 import os
+import copy
 
 
 FINISH_POSITION = 16777215
@@ -86,8 +87,7 @@ class Level(object):
 
         if self.number > 3:
             time_begin = time.time()
-            self.dfs()
-            # print 'dfs time: ', time.time() - time_begin
+            self.linear_system_solution()
             print 'linear solving time: ', time.time() - time_begin
         else:
             self.special_solution()
@@ -97,53 +97,40 @@ class Level(object):
 
     def go_to_success(self):
         print self.number, self.way_to_success
-        # for i, item in enumerate(self.way_to_success):
-        #     if i < len(self.way_to_success) - 1:
-        #         self.request_manager.get(Level.index_to_code(item))
-        #     else:
-        #         html = self.request_manager.get(Level.index_to_code(item))
-        #         self.parser.parse(html)
-        #         self.current_position = self.parser.flowers
-        #         if self.parser.level == self.number + 1:
-        #             self.level_complete = True
-        #         print 'html level: ', self.parser.level
         patch = [
             Level.index_to_code(item)
             for item in self.way_to_success
         ]
         self.current_position = self.request_manager.get_patch(
                 patch, self.number + 1 if self.number < 7 else 7)
-        self.level_complete = True
+        self.level_complete = bool(self.current_position)
 
-        # if self.parser.level == self.number + 1:
-        #     self.level_complete = True
-        #     print 'html level: ', self.parser.level
+    def linear_system_solution(self):
+        def solve(rows, value):
+            for i in range(24):
+                if value & (2**i):
+                    rows[23 - i] |= 2**24
+            for i in range(24):
+                for j in range(i, 24):
+                    if rows[j] & (2**i):
+                        rows[i], rows[j] = rows[j], rows[i]
+                        break
+                for g in range(24):
+                    if g != i and rows[g] & (2**i):
+                        rows[g] ^= rows[i]
+            result = 0
+            for i in range(24):
+                if rows[i] & (2**24):
+                    result |= 2**i
+            return result
 
-    def dfs(self):
-        # HACK WITH C++
-        with open('input.txt', 'w') as infile:
-            infile.write('{}\n'.format(self.previous_position))
-            for index, value in enumerate(self.dependencies):
-                infile.write('{} {}\n'.format(index, value))
-
-        try:
-            os.remove('output.txt')
-        except Exception:
-            pass
-        # os.startfile('utils\CPP\dfs.exe')
-        os.startfile('utils\CPP\linear.exe')
-        time.sleep(0.05)
-
-        time_begin = time.time()
-        while not os.path.isfile('output.txt'):
-            if time.time() - time_begin > 0.2:
-                break
-            time.sleep(0.02)
-
-        with open('output.txt', 'r') as outfile:
-            self.way_to_success = map(int, outfile.read().split())
-        os.remove('output.txt')
-        # HACK WITH C++
+        ans = \
+            solve(copy.copy(DEPENDENCIES[str(self.number)]), copy.copy(self.previous_position)) \
+            ^ solve(copy.copy(DEPENDENCIES[str(self.number)]), 2**24 - 1)
+        for i in range(24):
+            if ans & (2**i):
+                self.way_to_success.append(23 - i)
+        self.way_to_success = self.way_to_success[::-1]
 
     def special_solution(self):
         self.way_to_success = []
