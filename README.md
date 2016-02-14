@@ -9,59 +9,63 @@ http://teorver.pp.ua/ukr/games/klumba/
 use linear system
 
 
-#results (1.07s):
+#results (0.930999994278s):
 http://teorver.pp.ua/ukr/games/klumba/finish.php
 
 best time with DFS: 1.86s 
 
 best time with linear system: 1.07s
 
+1 [3, 4, 6, 9, 10, 13, 14, 15, 16, 18, 19, 20]
+
+queries time:  0.191999912262
+
 1 True
 
-2 [0, 1, 2, 3, 7, 10, 23, 18, 19]
+2 [5, 1, 4, 6, 8, 10, 14, 16, 23, 21]
 
-queries time:  0.110000133514
+queries time:  0.0920000076294
 
 2 True
 
-3 [18, 1, 2, 5, 10, 14, 17]
+3 [19, 0, 2, 4, 10, 13, 14, 16]
 
-queries time:  0.0829999446869
+queries time:  0.085000038147
 
 3 True
 
 linear solving time:  0.0
 
-4 [0, 1, 4, 8, 9, 11, 14, 16, 17, 19, 21, 22, 23]
+4 [1, 3, 7, 9, 14, 15, 19, 20, 22]
 
-queries time:  0.168999910355
+queries time:  0.0889999866486
 
 4 True
 
-linear solving time:  0.0
+linear solving time:  0.000999927520752
 
-5 [0, 4, 5, 7, 8, 9, 12, 18, 19, 23]
+5 [2, 3, 4, 6, 8, 13, 14, 17, 18, 19, 20, 21]
 
-queries time:  0.111000061035
+queries time:  0.165000200272
 
 5 True
 
 linear solving time:  0.0
 
-6 [4, 5, 8, 9, 13, 14, 15, 21, 22]
+6 [0, 3, 6, 7, 11, 15, 19]
 
-queries time:  0.085000038147
+queries time:  0.0809998512268
 
 6 True
 
-linear solving time:  0.000999927520752
+linear solving time:  0.0
 
-7 [6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 21, 23]
+7 [0, 5, 7, 8, 9, 11, 12, 15, 16, 19, 21, 22, 23]
 
-queries time:  0.101999998093
+queries time:  0.0930001735687
 
 7 True
 
-POSTING... #time = 1.0039999485!
+POSTING... #time = 0.930999994278!
 
-POST with time = 1.07899999619!
+POST with time = 1.09299993515!
