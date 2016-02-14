@@ -6,10 +6,10 @@ from threading import Thread
 from parser import Parser
 
 
-TIMEOUT_GET = 1
-TIMEOUT_GET_PATCH = 2
+TIMEOUT_GET = 0.15
+TIMEOUT_GET_PATCH = 0.15
 TIME_CHECK_QUEUE = 0.025
-TIMEOUT_PATCH = 1
+TIMEOUT_PATCH = 0.3
 
 
 class RequestManager(object):
@@ -63,7 +63,7 @@ class RequestManager(object):
         thread_way()
         while response_queue.empty():
             if time.time() - time_begin > TIMEOUT_PATCH:
-                break
+                return None
             time.sleep(TIME_CHECK_QUEUE)
 
         return response_queue.get_nowait()

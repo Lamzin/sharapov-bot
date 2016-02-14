@@ -3,7 +3,7 @@ import time
 from utils import Parser, RequestManager, Level
 
 
-EXPECTED_RECORD_TIME = 1.1
+EXPECTED_RECORD_TIME = 0.95
 
 
 class App(object):
@@ -27,6 +27,7 @@ class App(object):
                     return False
 
             if time.time() - time_begin < EXPECTED_RECORD_TIME:
+                print 'POSTING... #time = {}!'.format(time.time() - time_begin)
                 html = self.request_manager.post_name()
                 print 'POST with time = {}!'.format(time.time() - time_begin)
                 return True
